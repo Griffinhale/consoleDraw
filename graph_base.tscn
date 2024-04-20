@@ -27,13 +27,16 @@ position = Vector2(565, 34)
 [node name="Panel" type="Panel" parent="CanvasGroup"]
 offset_left = -565.0
 offset_top = -34.0
-offset_right = -13.0
-offset_bottom = 606.0
+offset_right = -118.0
+offset_bottom = 300.0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasGroup/Panel"]
-layout_mode = 0
-offset_right = 468.0
-offset_bottom = 576.0
+[node name="CanvasLayer" type="CanvasLayer" parent="CanvasGroup/Panel"]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/Panel/CanvasLayer"]
+offset_left = -2.0
+offset_top = 3.0
+offset_right = 454.0
+offset_bottom = 338.0
 script = ExtResource("1_lkgmv")
 
 [node name="GraphInput" type="TextEdit" parent="."]
@@ -86,8 +89,8 @@ offset_top = 501.0
 offset_right = 725.0
 offset_bottom = 569.0
 
-[connection signal="text_changed" from="GraphInput" to="CanvasGroup/Panel/TextureRect" method="_on_graph_input_text_changed"]
-[connection signal="pressed" from="Button" to="CanvasGroup/Panel/TextureRect" method="_on_button_pressed"]
-[connection signal="value_changed" from="xSlider" to="CanvasGroup/Panel/TextureRect" method="_on_x_slider_value_changed"]
-[connection signal="value_changed" from="ySlider" to="CanvasGroup/Panel/TextureRect" method="_on_y_slider_value_changed"]
-[connection signal="value_changed" from="LengthSlider" to="CanvasGroup/Panel/TextureRect" method="_on_v_slider_value_changed"]
+[connection signal="text_changed" from="GraphInput" to="CanvasGroup/Panel/CanvasLayer/TextureRect" method="_on_graph_input_text_changed"]
+[connection signal="pressed" from="Button" to="CanvasGroup/Panel/CanvasLayer/TextureRect" method="_on_button_pressed"]
+[connection signal="drag_ended" from="xSlider" to="CanvasGroup/Panel/CanvasLayer/TextureRect" method="_on_x_slider_drag_ended"]
+[connection signal="drag_ended" from="ySlider" to="CanvasGroup/Panel/CanvasLayer/TextureRect" method="_on_y_slider_drag_ended"]
+[connection signal="value_changed" from="LengthSlider" to="CanvasGroup/Panel/CanvasLayer/TextureRect" method="_on_v_slider_value_changed"]
