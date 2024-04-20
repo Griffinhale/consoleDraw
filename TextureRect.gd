@@ -46,6 +46,7 @@ func _on_v_slider_value_changed(value):
 
 
 func _on_y_slider_value_changed(value):
+	p1.y = value;
 	p2.y = value;
 	queue_redraw();
 
