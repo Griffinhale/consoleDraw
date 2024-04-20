@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwc0hb2nqqxcr"]
+[gd_scene load_steps=3 format=3 uid="uid://dwc0hb2nqqxcr"]
+
+[ext_resource type="Script" path="res://TextureRect.gd" id="1_lkgmv"]
 
 [sub_resource type="GDScript" id="GDScript_ctglh"]
 script/source = "extends Node2D
@@ -6,7 +8,7 @@ script/source = "extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$GraphWindow.can_draw()
+	pass
 
 
 
@@ -14,55 +16,78 @@ func _ready():
 func _process(delta):
 	pass
 
-func drawLine(p1:Vector2, p2:Vector2):
-	
-	queue_redraw()
-	pass
-
-func _draw():
-	var input = $GraphInput.get_line_count();
-	var text:String = $GraphInput.get_text();
-	print(\"input\", input, \"lines\");
-	print(text);
-	var pointArray = text.split();
-	print(pointArray)
-	var p1:Vector2;
-	var p2:Vector2;
-	##print(int(pointArray[0].get_slice(\",\", 0)))
-	p1.x = 0;
-	p1.y = 0;
-	p2.x = 500;
-	p2.y = 500;
-	print(p1,p2);
-	draw_line(p1,p2,\"black\",1.0);
-
-func _on_button_pressed():
-	
-	
-	queue_redraw();
 "
 
 [node name="GraphBase" type="Node2D"]
 script = SubResource("GDScript_ctglh")
 
-[node name="GraphInput" type="TextEdit" parent="."]
-offset_left = 586.0
-offset_top = 94.0
-offset_right = 970.0
-offset_bottom = 193.0
-text = "Enter points here:"
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+position = Vector2(565, 34)
 
-[node name="GraphWindow" type="Window" parent="."]
-position = Vector2i(9, 33)
-size = Vector2i(512, 600)
-visible = false
+[node name="Panel" type="Panel" parent="CanvasGroup"]
+offset_left = -565.0
+offset_top = -34.0
+offset_right = -13.0
+offset_bottom = 606.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/Panel"]
+layout_mode = 0
+offset_right = 468.0
+offset_bottom = 576.0
+script = ExtResource("1_lkgmv")
+
+[node name="GraphInput" type="TextEdit" parent="."]
+offset_left = 565.0
+offset_top = 34.0
+offset_right = 1113.0
+offset_bottom = 167.0
+text = "Mulitple sliders to adjust coefficients 
+and button to add additional term
+Checkboxes to allow seeing first and second derivatives. 
+Function is x for now but eventually should be able to add others"
 
 [node name="Button" type="Button" parent="."]
-offset_left = 607.0
-offset_top = 226.0
-offset_right = 772.0
-offset_bottom = 256.0
+offset_left = 602.0
+offset_top = 245.0
+offset_right = 767.0
+offset_bottom = 276.0
 text = "Draw line
 "
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="xSlider" type="VSlider" parent="."]
+offset_left = 840.0
+offset_top = 348.0
+offset_right = 856.0
+offset_bottom = 650.0
+
+[node name="ySlider" type="VSlider" parent="."]
+offset_left = 905.0
+offset_top = 350.0
+offset_right = 921.0
+offset_bottom = 652.0
+
+[node name="LengthSlider" type="VSlider" parent="."]
+offset_left = 696.0
+offset_top = 333.0
+offset_right = 830.0
+offset_bottom = 641.0
+max_value = 10.0
+
+[node name="LineEdit" type="LineEdit" parent="."]
+offset_left = 569.0
+offset_top = 385.0
+offset_right = 711.0
+offset_bottom = 416.0
+placeholder_text = "Origin Here"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 575.0
+offset_top = 501.0
+offset_right = 725.0
+offset_bottom = 569.0
+
+[connection signal="text_changed" from="GraphInput" to="CanvasGroup/Panel/TextureRect" method="_on_graph_input_text_changed"]
+[connection signal="pressed" from="Button" to="CanvasGroup/Panel/TextureRect" method="_on_button_pressed"]
+[connection signal="value_changed" from="xSlider" to="CanvasGroup/Panel/TextureRect" method="_on_x_slider_value_changed"]
+[connection signal="value_changed" from="ySlider" to="CanvasGroup/Panel/TextureRect" method="_on_y_slider_value_changed"]
+[connection signal="value_changed" from="LengthSlider" to="CanvasGroup/Panel/TextureRect" method="_on_v_slider_value_changed"]
